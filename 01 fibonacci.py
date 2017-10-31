@@ -1,12 +1,12 @@
 def allFib(n):
     mem = [0 for i in range(n)]
     for i in range(n):
-        print('{}'.format(fib_internal(i, mem)))
+        print('{}:{}'.format(i, fib_internal(i, mem)))
     print(mem)
 
 
 def fib_internal(n, mem):
-    if n == 0:
+    if n <= 0:
         return 0
     elif n == 1:
         return 1
@@ -16,5 +16,15 @@ def fib_internal(n, mem):
     mem[n] = fib_internal(n - 1, mem) + fib_internal(n - 2, mem)
     return mem[n]
 
-
 allFib(10)
+
+def get_fib(position):
+    if position < 0:
+        return -1
+    elif position in [0,1]:
+        return position
+    else:
+        return get_fib(position-1) + get_fib(position-2)
+
+
+print(get_fib(10))
