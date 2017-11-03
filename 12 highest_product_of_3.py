@@ -17,7 +17,6 @@ def highest_product_of_3(ints):
                 pos.pop(0)
             pos.append(ints[i])
             pos = sorted(pos)
-#        print(pos)
             
         if ints[i] < 0 and ints[i] < max(neg):
             if len(neg) == 3:
@@ -37,3 +36,11 @@ def highest_product_of_3(ints):
 
 ints = [-10, -10, 1, 3, 2] #[2,4,6,0,9,3,6]
 print(highest_product_of_3(ints))
+
+#==============================================================================
+# Reflection:
+# Why doesn't my solution look elegant? How could I have done better?
+# Perhaps I could have considered making `pos` and `neg` of length 2.
+# Instead of keeping a list, keep a running product.
+# Instead of thinking in terms of pos/neg, perhaps lowest/highest works.
+#==============================================================================

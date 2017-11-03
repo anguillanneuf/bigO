@@ -32,3 +32,8 @@ def get_max_profit(prices):
 
 prices = [12,3,6,14,1,11,10]
 print(get_max_profit(prices))
+
+#==============================================================================
+# Reflection: 
+# Sometimes it is useful to use indices, other times it may not. 
+#==============================================================================
