@@ -102,7 +102,7 @@ class Graph(object):
         def map_conversion(adjacency_list_for_node):
             if adjacency_list_for_node is None:
                 return None
-            return map(convert_to_names, adjacency_list_for_node)
+            return list(map(convert_to_names, adjacency_list_for_node))
         return [map_conversion(adjacency_list_for_node)
                 for adjacency_list_for_node in adjacency_list]
 
@@ -149,6 +149,14 @@ class Graph(object):
         RETURN: a list of the traversed node values (integers).
         """
         ret_list = [start_node.value]
+        start_node.visited = True
+        edges_out = []
+        for edge in start_node.edges:
+            if edge.node_to:
+                edges_out.append(edge)
+        for edge in edges_out:
+            if not edge.node_to.visited:
+                ret_list.extend(self.dfs_helper(edge.node_to))	 
         # Your code here
         return ret_list
 
@@ -175,8 +183,19 @@ class Graph(object):
         RETURN: a list of the node values (integers)."""
         node = self.find_node(start_node_num)
         self._clear_visited()
-        ret_list = [node.value]
+        ret_list = []
         # Your code here
+        queue = [node]
+        node.visited = True
+        while queue:
+            node = queue.pop(0)
+            ret_list.append(node.value)
+            for edge in node.edges:
+                if (edge.node_from.value == node.value) and \
+                    (not edge.node_to.visited):
+                        edge.node_to.visited = True
+                        queue.append(edge.node_to)
+                        
         return ret_list
 
     def bfs_names(self, start_node_num):
@@ -215,27 +234,27 @@ graph.insert_edge(9471, 5, 2)   # Sao Paolo <-> London
 # (6) 'Bangalore' is intentionally disconnected (no edges)
 # for this problem and should produce None in the
 # Adjacency List, etc.
-
+	
 import pprint
 pp = pprint.PrettyPrinter(indent=2)
 
-print "Edge List"
+print("Edge List")
 pp.pprint(graph.get_edge_list_names())
 
-print "\nAdjacency List"
+print("\nAdjacency List")
 pp.pprint(graph.get_adjacency_list_names())
 
-print "\nAdjacency Matrix"
+print("\nAdjacency Matrix")
 pp.pprint(graph.get_adjacency_matrix())
 
-print "\nDepth First Search"
+print("\nDepth First Search")
 pp.pprint(graph.dfs_names(2))
 
 # Should print:
 # Depth First Search
 # ['London', 'Shanghai', 'Mountain View', 'San Francisco', 'Berlin', 'Sao Paolo']
 
-print "\nBreadth First Search"
+print("\nBreadth First Search")
 pp.pprint(graph.bfs_names(2))
 # test error reporting
 # pp.pprint(['Sao Paolo', 'Mountain View', 'San Francisco', 'London', 'Shanghai', 'Berlin'])
