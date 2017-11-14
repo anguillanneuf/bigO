@@ -76,11 +76,21 @@ class BinaryTreeNode:
         return True
     
 bt = BinaryTreeNode(1)
-bt.insert_left(BinaryTreeNode(2))
-bt.insert_right(BinaryTreeNode(3))
+bt.insert_left(2)
+bt.insert_right(3)
+bt.left.insert_left(4)
+bt.left.insert_right(5)
+#bt.left.left.insert_left(6)
+
+print(bt.check_super_balance_bfs()) # True
+print(bt.check_super_balance_dfs()) # True
+
+bt = BinaryTreeNode(1)
+bt.insert_left(2)
+bt.insert_right(3)
 bt.left.insert_left(4)
 bt.left.insert_right(5)
 bt.left.left.insert_left(6)
 
-print(bt.check_super_balance_bfs())
-print(bt.check_super_balance_dfs())
+print(bt.check_super_balance_bfs()) # False
+print(bt.check_super_balance_dfs()) # False
