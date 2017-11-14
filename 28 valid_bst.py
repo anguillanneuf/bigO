@@ -23,27 +23,41 @@ class BinaryTreeNode:
         self.right = BinaryTreeNode(value)
         return self.right
     
-    def check_binary_search_tree_efficient(self):
+    def check_binary_search_tree_iterative(self):
         stack = []
         stack.append((self, -float('inf'), float('inf')))
         
         while len(stack) > 0: 
-            v, max_left, min_right = stack.pop()
+            v, lbound, ubound = stack.pop()
             
-            if v.value < max_left or v.value > min_right: 
+            if v.value < lbound or v.value > ubound: 
                 return False
             
             if v.left:
-                stack.append((v.left, max_left, v.value))
+                stack.append((v.left, lbound, v.value))
             if v.right:
-                stack.append((v.right, v.value, min_right))
+                stack.append((v.right, v.value, ubound))
                 
         return True
+
+    
+    def check_bst_recursive(self, node, lower, upper):
+        if not node:
+            return True
+        
+        if node.value <= lower or node.value >= upper:
+            return False
+                
+        return self.check_bst_recursive(node.left, lower, node.value) and \
+                self.check_bst_recursive(node.right, node.value, upper)
+    
+    
     
 bt = BinaryTreeNode(5)
 bt.insert_left(3)
 bt.insert_right(7)
 bt.left.insert_left(1)
-bt.left.insert_right(4)
+bt.left.insert_right(9)
 
-print(bt.check_binary_search_tree_efficient())
+print(bt.check_binary_search_tree_iterative())
+print(bt.check_bst_recursive(bt, -float('inf'), float('inf')))
