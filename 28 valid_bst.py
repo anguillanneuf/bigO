@@ -23,51 +23,27 @@ class BinaryTreeNode:
         self.right = BinaryTreeNode(value)
         return self.right
     
-    def check_binary_search_tree(self):
-        """
-        max(left) < node
-        min(right) > node
-        DFS, update max_left, min_right
-        """
-
+    def check_binary_search_tree_efficient(self):
         stack = []
-        stack.append(self.left.value)
-        max_left = stack[-1].value
-
-        while len(stack) > 0:
-            curr = stack[-1]
-            stack.pop()
-            if curr.value > max_left:
-                max_left = curr.value
-            if curr.left:
-                stack.append(curr.left.value)
-            if curr.right:
-                stack.append(curr.right.value)
-            if max_left > self.value:
+        stack.append((self, -float('inf'), float('inf')))
+        
+        while len(stack) > 0: 
+            v, max_left, min_right = stack.pop()
+            
+            if v.value < max_left or v.value > min_right: 
                 return False
             
-        stack = []
-        stack.append(self.right.value)
-        min_right = stack[-1].value
-        while len(stack) > 0:
-            curr = stack[-1]
-            stack.pop()
-            if curr.value < min_right:
-                min_right = curr.value
-            if curr.left:
-                stack.append(curr.left.value)
-            if curr.right:
-                stack.append(curr.right.value)
-            if min_right < self.value:
-                return False
-        
+            if v.left:
+                stack.append((v.left, max_left, v.value))
+            if v.right:
+                stack.append((v.right, v.value, min_right))
+                
         return True
     
-bt = BinaryTreeNode(1)
-bt.insert_left(BinaryTreeNode(2))
-bt.insert_right(BinaryTreeNode(3))
-bt.left.insert_left(4)
-bt.left.insert_right(5)
-bt.left.left.insert_left(6)
+bt = BinaryTreeNode(5)
+bt.insert_left(3)
+bt.insert_right(7)
+bt.left.insert_left(1)
+bt.left.insert_right(4)
 
-print(bt.check_binary_search_tree())
+print(bt.check_binary_search_tree_efficient())
