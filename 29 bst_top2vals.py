@@ -55,26 +55,37 @@ class BinaryTreeNode:
         return top2
     
 
-    def find_largest(self, node):
-        while node.right:
-            node = node.right
-        return node.value
+def find_largest(node):
+    while node.right:
+        node = node.right
+    return node.value
         
 
-    def find_second_largest(self, node):
+def find_second_largest(node):
 
-        if (not node.right) and node.left:
-            ans = self.find_largest(node.left)
-            return ans
-            
-        if node.right and not node.right.left and not node.right.right:
-            return node.value
+    if (not node.right) and node.left:
+        ans = find_largest(node.left)
+        return ans
+        
+    if node.right and not node.right.left and not node.right.right:
+        return node.value
+    else:
+        temp = find_second_largest(node.right)
+        if temp > node.value:
+            return temp
         else:
-            temp = self.find_second_largest(node.right)
-            if temp > self.value:
-                return temp
-            else:
-                return self.value
+            return node.value
+        
+def find_second_largest_iterative(node):
+    curr = node
+    while curr: 
+        if not curr.right and curr.left:
+            return find_largest(curr.left)
+        
+        if curr.right and (not curr.right.left) and (not curr.right.right):
+            return curr.value
+        
+        curr = curr.right
         
         
    
@@ -83,9 +94,10 @@ bt.insert_left(3)
 bt.insert_right(7)
 bt.left.insert_left(1)
 bt.left.insert_right(4)
-bt.right.insert_left(6)
+bt.right.insert_right(16)
 
 print(bt.find_top_2())
 print(bt.find_top2_fast())
-print(bt.find_largest(bt))
-print(bt.find_second_largest(bt))
+print(find_largest(bt))
+print(find_second_largest(bt))
+print(find_second_largest_iterative(bt))
