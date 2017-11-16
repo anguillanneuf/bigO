@@ -69,7 +69,7 @@ def find_second_largest_recursive(node):
     if node.right and not node.right.left and not node.right.right:
         return node.value
     else:
-        return find_second_largest(node.right)
+        return find_second_largest_recursive(node.right)
         
 def find_second_largest_iterative(node):
     curr = node
