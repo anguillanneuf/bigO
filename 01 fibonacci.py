@@ -26,5 +26,8 @@ def get_fib(position):
     else:
         return get_fib(position-1) + get_fib(position-2)
 
+def fib_binet(n):
+    return int(1/(5**0.5)*(((1+5**0.5)/2)**n-((1-5**0.5)/2)**n))
 
 print(get_fib(10))
+print(fib_binet(10))
