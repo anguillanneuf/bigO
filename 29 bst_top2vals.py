@@ -61,20 +61,15 @@ def find_largest(node):
     return node.value
         
 
-def find_second_largest(node):
+def find_second_largest_recursive(node):
 
     if (not node.right) and node.left:
-        ans = find_largest(node.left)
-        return ans
+        return find_largest(node.left)
         
     if node.right and not node.right.left and not node.right.right:
         return node.value
     else:
-        temp = find_second_largest(node.right)
-        if temp > node.value:
-            return temp
-        else:
-            return node.value
+        return find_second_largest(node.right)
         
 def find_second_largest_iterative(node):
     curr = node
@@ -87,8 +82,6 @@ def find_second_largest_iterative(node):
         
         curr = curr.right
         
-        
-   
 bt = BinaryTreeNode(5)
 bt.insert_left(3)
 bt.insert_right(7)
@@ -99,5 +92,5 @@ bt.right.insert_right(16)
 print(bt.find_top_2())
 print(bt.find_top2_fast())
 print(find_largest(bt))
-print(find_second_largest(bt))
+print(find_second_largest_recursive(bt))
 print(find_second_largest_iterative(bt))
