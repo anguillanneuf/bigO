@@ -3,6 +3,24 @@
 Created on Fri Nov 17 13:39:38 2017
 
 @author: harrisot
+
+abcbc
+a.*bc
+
+[a,a]
+[ab, a.*] ''
+[ab, a.*b] ''+'b'
+[abc, a.*bc]
+[abcb, a.*bc_] Fail!
+
+[ab, a.*] 'b'
+[abc, a.*b] Fail!
+
+[abc, a.*] 'bc'
+[abcb, a.*b]
+[abcbc, a.*bc] 
+[abcbc_, a.*bc_] pass!
+
 """
 
 def is_match(text, pattern):
@@ -25,6 +43,7 @@ def is_match(text, pattern):
         if pattern_ptr+2 == pattern_len: 
           return True
         else:
+          # need recursion instead - test all possible scenarios
           letter = pattern[pattern_ptr+2]
           while text[text_ptr] != letter:
             text_ptr += 1
@@ -50,4 +69,5 @@ print(is_match("abbb", "ab*"))
 print(is_match("abbbbbf", "ab.*f"))
 print(is_match("abaa", "a.*a*"))
 print(is_match("abbdbb", "ab*d"))
+# really tricky!
 print(is_match("abcbc", ".*bc"))
