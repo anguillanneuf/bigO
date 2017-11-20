@@ -25,10 +25,15 @@ def rabin_karp_algo(text, substring):
     n = len(text)
     m = len(substring)
     
-    q = 11 # a prime number
+    q = 101 # a prime number
     d = 128 # constant
     
-    h = d**(m-1)
+    # Calculate pow(h, m-1)
+    h = d**(m-1)%q
+    # alternatively, this is really cool!
+    h = 1
+    for i in range(m-1):
+        h = h*d % q
     
     # Calculate hash
     substring_hash = 0
