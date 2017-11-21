@@ -13,17 +13,15 @@ class LinkedListNode:
 
 def reverse_linked_list(root):
   old = None
-  while root.next is not None:
-    
-    new = root.next
-    root.next = old
-    old = root
-    root = new
-    
-  if root.next is None:
-    root.next = old
-    
-        
+  new = None
+  curr = root
+  
+  while curr:
+    new = curr.next
+    curr.next = old
+    old = curr
+    curr = new
+
 a = LinkedListNode('A')
 b = LinkedListNode('B')
 c = LinkedListNode('C')
