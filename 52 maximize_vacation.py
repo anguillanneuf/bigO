@@ -18,14 +18,14 @@ class Vacation:
       
       for j in range(len(self.flights)):
         if curr == j:
-          self.create_itinerary(k-1, prefix+str(j))
+          self.create_itinerary(k-1, prefix+[str(j)])
         elif self.flights[curr][j] == 1:
-          self.create_itinerary(k-1, prefix+str(j))
+          self.create_itinerary(k-1, prefix+[str(j)])
   
   def maximize_vacation(self):
 
     nweeks = len(self.days)
-    self.create_itinerary(nweeks, '')
+    self.create_itinerary(nweeks, [])
     max_vac = 0
     
     for itinerary in self.itineraries:
