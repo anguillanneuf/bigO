@@ -14,16 +14,14 @@ class Node:
         self.children = []
         self.parents = None
        
-        
 def get_cheapest_cost_recursive(node):
     if len(node.children) == 0:
         return node.cost
     else:
-        costs = []
+        temp = sys.maxsize
         for child in node.children:
-            temp = get_cheapest_cost_recursive(child)
-            costs.append(temp)
-        return min(costs) + node.cost
+            temp = min(temp, get_cheapest_cost_recursive(child))
+        return temp + node.cost
     
 def get_cheapest_cost_iterative(node):
     minCost = sys.maxsize
