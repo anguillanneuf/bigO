@@ -17,11 +17,11 @@ class Node:
 def get_cheapest_cost_recursive(node):
     if len(node.children) == 0:
         return node.cost
-    else:
-        temp = sys.maxsize
-        for child in node.children:
-            temp = min(temp, get_cheapest_cost_recursive(child))
-        return temp + node.cost
+    
+    temp = sys.maxsize
+    for child in node.children:
+        temp = min(temp, get_cheapest_cost_recursive(child))
+    return temp + node.cost
     
 def get_cheapest_cost_iterative(node):
     minCost = sys.maxsize
