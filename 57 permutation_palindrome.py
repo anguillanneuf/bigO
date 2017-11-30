@@ -6,17 +6,16 @@ Created on Thu Nov 30 12:07:20 2017
 """
 
 def permutation_palindrome(s):
-  vocab = {}
-  
+
+  vocab = set()
   
   for i in s:
-    
-    if i not in vocab.keys():
-      vocab.update({i: 1})
+    if i not in vocab:
+      vocab.add(i)
     else:
-      vocab[i] = (vocab[i] + 1) % 2
+      vocab.remove(i)
   
-  return True if sum([v for v in vocab.values()]) == 1 else False
+  return True if len(vocab) == 1 else False
 
 s1 = "civic"
 s2 = "ivicc"
