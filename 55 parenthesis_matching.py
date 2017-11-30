@@ -6,20 +6,23 @@ Created on Wed Nov 29 17:45:18 2017
 """
 
 def parenthesis_matching(s, ptr):
-  stack = [ptr]
+  ans = 0
   
-  while ptr < len(s):
+  while ptr+1 < len(s):
     ptr += 1
     
-    if s[ptr] == '(':
-      stack.append(ptr)
-    if s[ptr] == ')':
-      stack.pop()
-    if len(stack)==0:
-      break
-      
-      
-  return ptr
+    if s[ptr] == ')' and ans == 0:
+      return ptr
+    
+    elif s[ptr] == '(':
+      ans += 1
+      continue
+    
+    elif s[ptr] == ')' and ans > 0:
+      ans -= 1
+      continue
+    
+  raise Exception("No closing parenthesis")
 
 
 s = "Sometimes (when I nest them (my parentheticals) too much \
