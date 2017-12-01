@@ -36,7 +36,27 @@ def get_products_of_all_ints_except_at_index2(ints):
         
     return products
 
+
+def get_products_of_all_ints_except_at_index3(ints):
+  
+  products = [1] * len(ints)
+  
+  product = 1
+  for i in range(len(ints)):
+    products[i] = product
+    product *= ints[i]
+    
+  product = 1
+  for i in range(len(ints)-1, -1, -1):
+    products[i] *= product
+    product *= ints[i]
+    
+  return products
+  
+
+
 print(get_products_of_all_ints_except_at_index2([1,2,3,4]))
+print(get_products_of_all_ints_except_at_index3([1,2,3,4]))
 
 #==============================================================================
 # Reflection:
