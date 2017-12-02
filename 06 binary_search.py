@@ -15,7 +15,7 @@ def binary_search_iterative(input_array, value):
     """Your code goes here."""
     left, right = 0, len(input_array)-1
 
-    while left <= right:
+    while left < right:
         mid = (left+right)//2
 
         if input_array[mid] == value:
@@ -23,7 +23,7 @@ def binary_search_iterative(input_array, value):
         elif input_array[mid] < value:
             left = mid + 1
         else:
-            right = mid - 1
+            right = mid
 
     return -1
 
@@ -41,7 +41,7 @@ def binary_search_recursive(input_array, value, left=0, right=None):
     elif input_array[mid] < value:
         return binary_search_recursive(input_array, value, mid+1, right)
     else:
-        return binary_search_recursive(input_array, value, left, mid-1)
+        return binary_search_recursive(input_array, value, left, mid)
 
 test_list = [1, 3, 9, 11, 15, 19, 29]
 test_val1 = 100
