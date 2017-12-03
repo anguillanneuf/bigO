@@ -52,7 +52,6 @@ def single_riffle_check(cards):
           return False
         
     else:
-      
       if a == i - 1:
         a += 1
       else:
@@ -63,7 +62,33 @@ def single_riffle_check(cards):
   
   return True
 
-cards1 = [0, 7, 6, 8, 1, 9, 10, 2, 3, 4, 5]
-cards2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-cards3 = [0, 1, 2, 3, 4, 6, 5, 7, 8, 9, 10]
+cards1 = [6, 7, 0, 8, 1, 9, 10, 2, 3, 4, 5] # True
+cards2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] # True
+cards3 = [0, 1, 2, 3, 4, 6, 5, 7, 8, 9, 10] # True
 print(single_riffle_check(cards1))
+print(single_riffle_check(cards2))
+print(single_riffle_check(cards3))
+
+
+def is_single_riffle(arr1, arr2, shuffled_deck):
+  """Input: arr1, arr2, shuffled_deck"""
+  a1 = b1 = 0
+  a2 = len(arr1)-1
+  b2 = len(arr2)-1
+  
+  for card in shuffled_deck:
+    if a1 <= a2 and card == arr1[a1]:
+      a1 += 1
+      
+    elif b1 <= b2 and card == arr2[b1]:
+      b1 += 1
+      
+    else:
+      return False
+    
+  return True
+  
+
+print(is_single_riffle([6,7,8,9,10],[0,1,2,3,4,5],cards1))
+print(is_single_riffle([6,7,8,9,10],[0,1,2,3,4,5],cards2))
+print(is_single_riffle([6,7,8,9,10],[0,1,2,3,4,5],cards3))
