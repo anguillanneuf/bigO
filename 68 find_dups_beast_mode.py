@@ -11,14 +11,13 @@ class LinkedList:
     self.next = None
 
 def find_dups_beast_mode(arr):
-  curr = arr[0]
-  
-  while True:
 
-    if arr[curr-1]>0:
-        arr[curr-1],curr = -arr[curr-1],abs(arr[curr-1])
+  for curr in arr:
+
+    if arr[abs(curr)-1]>0:
+        arr[abs(curr)-1] = -arr[abs(curr)-1]
     else:
-      return abs(arr[curr-1])
+      return abs(curr)
 
-
-print(find_dups_beast_mode([2,4,3,4,2]))
+print(find_dups_beast_mode([1,2,3,4,2]))
+print(find_dups_beast_mode([2,2,1,3]))
