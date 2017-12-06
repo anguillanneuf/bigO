@@ -5,20 +5,36 @@ Created on Sun Dec  3 21:57:08 2017
 
 @author: tz
 """
-class LinkedList:
-  def __init__(self, value):
-    self.value = value
-    self.next = None
 
 def find_dups_beast_mode(arr):
-  curr = arr[0]
+  # find cycle
+  n = len(arr)
+  curr = n # if starting at 0, there will be a problem 
   
-  while True:
+  for _ in range(n):
+    curr = arr[curr-1]
+  
+  # find out the length of the cycle
+  m = 1
+  pointer = n
+  while pointer!=curr:
+    pointer = arr[pointer-1]
+    m += 1
+    
+  print(pointer, m)
+  
+  # enter cycle
+  begin = n
+  for _ in range(m):
+    begin = arr[begin-1]
+  
+  
+  # find the beginning of the cycle 
+  end = n
+  while begin!=end:
+    end=arr[end-1]
+    begin=arr[begin-1]
+    
+  return begin
 
-    if arr[curr-1]>0:
-        arr[curr-1],curr = -arr[curr-1],abs(arr[curr-1])
-    else:
-      return abs(arr[curr-1])
-
-
-print(find_dups_beast_mode([2,4,3,4,2]))
+print(find_dups_beast_mode([1,4,3,4,2]))
