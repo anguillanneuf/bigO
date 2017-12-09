@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Dec  9 12:41:03 2017
+
+@author: tz
+"""
+
+class Node:
+  def __init__(self, value):
+    self.value = value
+    self.left = None
+    self.right = None
+    self.max = 0
+    self.globalmax = -float('inf')
+    
+  def largest_path(self, node):
+    """Find the path that sums to the largest value by adding
+    all the node values along the way. O(n) time, O(n) space"""
+    
+    if node.left is None and node.right is None:
+      node.max = max(node.max, node.value)
+      if node.max > node.globalmax:
+        node.globalmax = node.max
+      return node.max
+    
+    left = right = 0
+    
+    if node.left:
+      left = self.largest_path(node.left)
+      
+    if node.right:
+      right = self.largest_path(node.right)
+      
+    node.globalmax = max(node.globalmax, 
+                         left, 
+                         right, 
+                         left+node.value, 
+                         left+node.value+right, 
+                         node.value+right)
+    
+    node.max = max(left+node.value, node.value, node.value+right)
+    
+    return node.max
+  
+root = Node(3)
+root.left = Node(-1)
+root.left.left = Node(100)
+root.left.right = Node(-9)
+root.right = Node(98)
+
+root.largest_path(root)
+print(root.globalmax) # should print 200
