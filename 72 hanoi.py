@@ -12,14 +12,19 @@ def hanoi(n, loc, temp, dest):
   
   hanoi(n-1, loc, dest, temp)
   
-  piece = loc.pop()
-  dest.append(piece)
+  loc_temp = loc
+  dest_temp = dest
+  piece = loc[0].pop()
+  dest[0].append(piece)
+  print("moving {} from {} to {}".format(piece, loc_temp[1], dest_temp[1]))
+  #print(loc, temp, dest)
   
   hanoi(n-1, temp, loc, dest)
   
 n = 3
-loc = [3,2,1]
-temp = []
-dest = []
+loc = ([3,2,1], "A")
+temp = ([], "B")
+dest = ([], "C")
 hanoi(n, loc, temp, dest)
+
 print(loc, temp, dest)
