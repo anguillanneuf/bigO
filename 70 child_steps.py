@@ -28,25 +28,34 @@ print("My solution: {} combinations to make 100".format(child_steps(100,[1,2,3])
 def helper(amt, denoms, i, cm, cm2):
   """This is a top-down approach"""
 
-  if i >= len(denoms)-1:  
+  if i >= len(denoms)-1:
+    cm2[amt][i] = 1
     return 1
   
-  if cm2[amt][i] > 0: return cm2[amt][i]
-#  if cm[amt] > 0: return cm[amt]
+  if cm2[amt][i] > 0: 
+    return cm2[amt][i]
+  
+  if cm[amt] > 0: 
+    return cm[amt]
 
   ways = 0
   
   for x in range(0, amt+1, denoms[i]):
     ways += helper(amt-x, denoms, i+1,cm,cm2)
+    
   cm[amt] = ways
-  cm2[amt][i+1] = ways
+  cm2[amt][i] = ways
   
   return ways
 
 def makeChange(amt, denoms):
-  cm = [0]*(amt+1)
-  cm2 = [[0]*len(denoms)]*(amt+1)
-  return helper(amt, denoms, 0, cm, cm2), cm, cm2
+  """[0,0,0]*n creates n references to [0,0,0]
+  However, [[0,0,0] for _ in range(n)] creates n lists"""
+  
+  cm = [0 for _ in range(amt+1)]
+  cm2 = [[0 for _ in range(len(denoms))] for _ in range(amt+1)]
+  
+  return helper(amt, denoms, 0, cm, cm2)
 
 print("My bottom-up solution: {}".format(child_steps(25,[1,5,10,25])))
 print("Book solution: {}".format(makeChange(25,(25,10,5,1))))
