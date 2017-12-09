@@ -12,12 +12,10 @@ def hanoi(n, loc, temp, dest):
   
   hanoi(n-1, loc, dest, temp)
   
-  loc_temp = loc
-  dest_temp = dest
+
   piece = loc[0].pop()
   dest[0].append(piece)
-  print("moving {} from {} to {}".format(piece, loc_temp[1], dest_temp[1]))
-  #print(loc, temp, dest)
+  print("moving {} from {} to {}".format(piece, loc[1], dest[1]))
   
   hanoi(n-1, temp, loc, dest)
   
