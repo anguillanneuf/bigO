@@ -8,9 +8,12 @@ class Vacation:
   def __init__(self, flights, days):
     self.flights = flights
     self.days = days
-    self.memo = [[0]*len(days)]*len(flights)
+    self.memo = [[0 for _ in range(len(days))] for _ in range(len(flights))]
     
   def maximize_vacation(self, city, week):
+    """O(k*n) time
+    O(k*n) space
+    """
     num_cities = len(self.flights)
     num_weeks = len(self.days)
     vac = 0
@@ -28,7 +31,25 @@ class Vacation:
     self.memo[city][week] = vac
     
     return self.memo[city][week]
-
+  
+  def maximize_vacation_iterative(self):
+    """O(k*n*n) time 
+    O(n) space"""
+    
+    max_by_city = [0 for _ in range(len(flights))]
+    
+    for k in range(len(self.days)):
+      temp_max = [0 for _ in range(len(flights))]
+      for i in range(len(self.flights)):
+        temp = 0
+        for j in range(len(self.flights)):
+          if i==j or self.flights[i][j] == 1:
+            temp = max(temp, max_by_city[j]+self.days[k][i])
+        temp_max[i] = temp
+      max_by_city = temp_max
+      
+    return max(max_by_city)
+  
 flights = [[0,1,1],
            [1,0,1],
            [1,1,0]]
@@ -43,5 +64,10 @@ days2   = [[7,0,0],
 
 vac1 = Vacation(flights, days1)
 vac2 = Vacation(flights, days2)
+
 print(vac1.maximize_vacation(0,0)) # expected 12
+print(vac1.memo)
+print(vac1.maximize_vacation_iterative())
+
 print(vac2.maximize_vacation(0,0)) # expected 21
+print(vac2.maximize_vacation_iterative())
