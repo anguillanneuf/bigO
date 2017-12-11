@@ -5,6 +5,13 @@ Created on Sun Dec 10 20:03:07 2017
 
 @author: tz
 """
+import operator
+
+def operate(op):
+  return {'+': operator.add, 
+          '-': operator.sub,
+          '*': operator.mul,
+          '/': operator.truediv}[op]
 
 def calculator(equation):
   vals = []
@@ -36,10 +43,7 @@ def calculator(equation):
     else:
       a = vals.pop()
       b = vals.pop()
-      if op == "*":
-        vals.append(float(a)*float(b))
-      else:
-        vals.append(float(a)/float(b))
+      vals.append(operate(op)(a,b))
   
   while len(_vals) > 0:
     val = _vals.pop()
@@ -51,13 +55,10 @@ def calculator(equation):
     
   while len(ops) > 0:
     op = ops.pop()
-    b = vals.pop()
     a = vals.pop()
-    if op == "+":
-      vals.append(float(a)+float(b))
-    else:
-      vals.append(float(a)-float(b))
-      
+    b = vals.pop()
+    vals.append(operate(op)(a,b))
+
   return vals[0]
         
         
