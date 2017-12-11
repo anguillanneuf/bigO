@@ -61,5 +61,47 @@ def calculator(equation):
 
   return vals[0]
         
-        
 print(calculator("2*3+5/6*3+15"))
+
+def calculator_super(equation):
+  i = 0
+  vals = []
+  ops = []
+  
+  while i < len(equation):
+    
+    symbol = ''
+    while i < len(equation) and equation[i].isdigit():
+      symbol += equation[i]
+      i += 1
+    if symbol != '':
+      vals.append(float(symbol))
+    
+    if i < len(equation) and not equation[i].isdigit():
+      ops.append(equation[i])
+      i += 1
+    
+    if ops[-1]=='*' or ops[-1]=='/':
+      symbol = ''
+      while i < len(equation) and equation[i].isdigit():
+        symbol += equation[i]
+        i += 1
+      vals.append(float(symbol))
+      
+      op = ops.pop()
+      b = vals.pop()
+      a = vals.pop()
+      
+      vals.append(operate(op)(a,b))
+  
+  for _ in range(len(ops)):
+    b = vals.pop()
+    a = vals.pop()
+    op = ops.pop()
+    vals.append(operate(op)(a,b))
+    
+  return vals[0]
+
+
+print(calculator_super("2*3+5/6*3+15"))
+#print(calculator_super("1985/5-1983/8+9/4"))
