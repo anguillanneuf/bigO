@@ -29,3 +29,5 @@ print(circus_tower(pp1))
 
 pp1 = [(75,87),(65,90),(70,91),(71,82),(72,84),(73,85),(74,86)]
 print(circus_tower(pp1))
+
+# how to search for sub sequences in an array in O(n^2) and O(nlogn) time
