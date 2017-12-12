@@ -50,3 +50,11 @@ def subsequence_search(arr):
   return best
 
 print(subsequence_search([90,91,81,82,83,74,85])) 
+print(subsequence_search([80,90,91,81,82,83,74,85]))
+
+def longest_subsequence(arr):
+  pass
+
+
+
+
