@@ -6,7 +6,7 @@ Created on Wed Dec 13 15:48:21 2017
 @author: tz
 """
 
-def longest_subsequence(arr):
+def longest_subsequence_Onlogn(arr):
   if len(arr) < 2:
     return arr
   
@@ -48,4 +48,21 @@ def longest_subsequence(arr):
   return results[::-1]
 
 arr = [30,10,20,50,40,60]
-print(longest_subsequence(arr))
+print(longest_subsequence_Onlogn(arr))
+
+def longest_subsequence_On2(arr):
+  mem = [[] for _ in range(len(arr))]
+  best = []
+  
+  for i in range(len(arr)):
+    cond = False
+    for j in range(i): 
+      if arr[i] > mem[j][-1]:
+        cond = True
+        mem[i] = mem[j] + [arr[i]]
+        best = max(mem[i], best, key=len) # key=lambda i: len(i)
+    if cond is False:
+      mem[i].append(arr[i])
+  return best
+
+print(longest_subsequence_On2([80,90,91,81,82,83,74,85]))
