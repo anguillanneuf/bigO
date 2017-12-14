@@ -11,17 +11,21 @@ class LinkedListNode:
     self.next = None
 
 def palindrome(node):
-  arr = []
-  while node:
-    arr.append(node.value)
-    node = node.next
-  i = 0
-  j = len(arr)-1
-  while i<j:
-    if arr[i]!=arr[j]:
+  slow = node
+  fast =  node
+  left = []
+  
+  while fast.next and fast.next.next:
+    left.append(slow.value)
+    slow = slow.next
+    fast = fast.next.next
+
+  while len(left)>0:
+    slow = slow.next
+    curr = left.pop()
+    if curr != slow.value:
       return False
-    i+=1
-    j-=1
+     
   return True
 
 a = LinkedListNode('R')
