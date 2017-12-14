@@ -7,6 +7,7 @@ Created on Wed Dec 13 22:33:49 2017
 """
 
 def rotate_matrix(mat):
+  """Challenge: do it in place"""
   n = len(mat)
   output = [[0 for _ in range(n)] for _ in range(n)]
   for i in range(n):
