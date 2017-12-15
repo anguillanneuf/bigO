@@ -33,29 +33,20 @@ class BinarySearchTree:
   # Constructor to create a new BST
   def __init__(self):
     self.root = None
-    self.arr = []
-    
-  def helper(self, curr):
-    if curr is None:
-      return
-    
-    if curr.left: 
-      self.helper(curr.left)
-    
-    self.arr.append(curr)
-    
-    if curr.right:
-      self.helper(curr.right)
-  
 
   def find_in_order_successor(self, inputNode):
-    self.helper(self.root)
-    myarr = [i.key for i in self.arr]
-    index = myarr.index(inputNode.key)
+    if inputNode.right: 
+      inputNode = inputNode.right
+      while inputNode.left:
+        inputNode = inputNode.left
+      return inputNode
     
-    if index == len(self.arr)-1:
+    else:
+      while inputNode.parent:
+        if inputNode.parent.left == inputNode:
+          return inputNode.parent
+        inputNode = inputNode.parent
       return None
-    return self.arr[index+1] # number, return Node
 
   # Given a binary search tree and a number, inserts a
   # new node with the given number in the correct place
