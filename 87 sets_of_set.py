@@ -12,12 +12,10 @@ def sets_from_set(S):
   
   while len(S)>0:
     curr = S.pop()
-    ans_ = ans.copy()
-    for item in ans_:
-      item_ = item.copy()
-      item_.add(curr)     
-      ans.append(item_)
-    
+    temp=[]
+    for item in ans:   
+      temp.append(item.union(curr))
+    ans.extend(temp)
   return ans
 
 S = {'a','b','c'}
