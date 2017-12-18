@@ -1,13 +1,15 @@
-def merge_sort(array):
-    _merge_sort(array, 0, len(array)-1)
-    return array
-
-def _merge_sort(array, i, j):
+def merge_sort(array, i=None, j=None):
+  
+    if i is None and j is None:
+        i = 0
+        j = len(array)-1
+        
     if i < j:
         mid = (i+j) // 2
-        _merge_sort(array, i, mid)
-        _merge_sort(array, mid+1, j)
+        merge_sort(array, i, mid)
+        merge_sort(array, mid+1, j)
         merge(array, i, mid, j)
+    return array
 
 def merge(array, i, mid, j):
 
@@ -16,7 +18,7 @@ def merge(array, i, mid, j):
 
     pointer = i
 
-    helper = array[:]
+    helper = array[:]    # Not doing in place merge sort
 
     while i < i_end and j_start < j+1:
         if helper[i] < helper[j_start]:
