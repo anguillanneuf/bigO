@@ -5,36 +5,52 @@ Created on Fri Nov  3 16:47:49 2017
 
 @author: tz
 """
+import heapq
+from functools import reduce
 
 def highest_product_of_3(ints):
-    highest_3 = sorted(ints[:3])
-    pos = sorted([i for i in highest_3 if i > 0])
-    neg = sorted([i for i in highest_3 if i < 0])
-    
-    for i in range(3, len(ints)):
-        if ints[i] > 0 and ints[i] > min(pos):
-            if len(pos) == 3:
-                pos.pop(0)
-            pos.append(ints[i])
-            pos = sorted(pos)
-            
-        if ints[i] < 0 and ints[i] < max(neg):
-            if len(neg) == 3:
-                neg.pop(2)
-            neg.append(ints[i])
-            neg = sorted(neg)
-            
-    highest_product = 1
-    if len(pos) >=3:
-        highest_product = pos[0] * pos[1] * pos[2]
-    if len(neg) >=2:
-        temp = neg[0]*neg[1]*pos[2]
-        if temp > highest_product:
-            highest_product = temp
-    
-    return highest_product
+  if len(ints) <3:
+    return "Not enough values!"
+  
+  neg=[]
+  pos=[]
+  
+  heapq.heapify(neg)
+  heapq.heapify(pos)
+  
+  for i in ints:
+    if i >= 0:
+      heapq.heappush(pos,i)
+      if len(pos) > 3:
+        heapq.heappop(pos)
+    else:
+      heapq.heappush(neg, i)
+  
+  if len(neg)<=1:
+    return reduce(lambda a,b: a*b, pos)
 
-ints = [-10, -10, 1, 3, 2] #[2,4,6,0,9,3,6]
+  heapq.nsmallest(2,neg)
+
+  n1n2 = neg[0]*neg[1]
+  
+  if len(pos)==0:
+    temp = heapq.nlargest(3,neg)
+    return reduce(lambda a,b: a*b, temp)
+  elif len(pos)==1:
+    p1 = heapq.heappop(pos)
+    return n1n2*p1
+  elif len(pos)==2:
+    p = heapq.heappop(pos)
+    p = heapq.heappop(pos)
+    return n1n2*p
+  else:
+    p1 = heapq.heappop(pos)
+    p2 = heapq.heappop(pos)
+    p3 = heapq.heappop(pos)
+    return max(p3*p2*p1, n1n2*p3)
+    
+
+ints = [-1, -9, 2,4,6] #[2,4,6,0,9,3,6]
 print(highest_product_of_3(ints))
 
 #==============================================================================
