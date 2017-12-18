@@ -10,7 +10,7 @@ from functools import reduce
 
 def highest_product_of_3(ints):
   if len(ints) <3:
-    return "Not enough values!"
+    raise Exception("Not enough values!")
   
   neg=[]
   pos=[]
@@ -50,7 +50,7 @@ def highest_product_of_3(ints):
     return max(p3*p2*p1, n1n2*p3)
     
 
-ints = [-1, -9, 2,4,6] #[2,4,6,0,9,3,6]
+ints = [-1, -9] #[2,4,6,0,9,3,6]
 print(highest_product_of_3(ints))
 
 #==============================================================================
