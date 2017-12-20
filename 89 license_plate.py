@@ -42,11 +42,119 @@ def search_brute_force(vocab, plate):
           
   return shortest
 
-def search_prefix(vocab, plate):
-  return None
-
 vocab = ['enjoy','enjoying', 'joy','joyful','joyous','joyousness']
 plate = 'NY10NJ'
 
-print(search_brute_force(vocab, plate))
-print(search_prefix(vocab, plate))
+print("Working solution for the shortest word: {}".
+      format(search_brute_force(vocab, plate)))
+
+class TrieNode:
+  def __init__(self, char=None, state=None):
+    self.value = char
+    self.state = state
+    self.prev = None
+    self.next = None
+    
+    
+class TrieTree:
+  def __init__(self):
+    self.root = None
+    
+  def insert(self, trieNode):
+    if self.root is None:
+      self.root=trieNode
+      return
+    currNode = self.root
+    while currNode.next is not None:
+      currNode = currNode.next
+    currNode.next = trieNode
+    currNode.next.prev = currNode
+    
+  def delete(self, trieNode):
+    if self.root is None:
+      raise Exception("There are no nodes left to delete!")
+    if trieNode.prev: 
+      trieNode.prev.next = None
+    else: 
+      self.root = None
+
+
+trieNode1 = TrieNode('e', {'j':1, 'n':2, 'y':1})
+trieNode2 = TrieNode('n', {'j':1, 'n':1, 'y':1})
+trieNode3 = TrieNode('j', {'n':1, 'y':1})
+
+myTrieTree = TrieTree()
+myTrieTree.insert(trieNode1)
+myTrieTree.insert(trieNode2)
+myTrieTree.insert(trieNode3)
+
+print("Constructing...")
+node = myTrieTree.root
+while node:
+  print(node.prev.value if node.prev else None, node.value)
+  node = node.next
+
+print("Deleting...")
+myTrieTree.delete(trieNode3)
+node = myTrieTree.root
+while node:
+  print(node.value)
+  node = node.next
+
+
+def check_word(prev_tree, word, plate_dict):
+  if prev_tree.root is not None:
+    curr_node = prev_tree.root
+    
+  for ch in word: 
+    
+    if prev_tree.root is None: 
+      prev_tree.insert(TrieNode(ch, plate_dict))
+      curr_node = prev_tree.root
+    
+    if curr_node is None:
+      curr_node = TrieNode(ch, plate_dict)
+      prev_tree.insert(curr_node)
+      curr_node = curr_node.next
+    elif ch == curr_node.value:
+      curr_node = curr_node.next
+    else: 
+      prev_tree.delete(curr_node)
+      prev_tree.insert(TrieNode(ch, plate_dict))
+    
+  #return prev_tree
+
+prev_tree = TrieTree()
+word = 'enjoy'
+plate_dict = {'j':1, 'n':2, 'y':1}
+#check_word(prev_tree, word, plate_dict)
+#print(prev_tree.root.value)
+#print(prev_tree.root.state)
+
+
+#check_word(prev_tree, 'english', plate_dict)
+#node = prev_tree.root
+#while node:
+#  print(node.value)
+#  node = node.next
+
+
+def search_prefix(vocab, plate):
+  
+  shortest = None
+  
+  plate_dict = create_dict(plate)
+  prev_tree = TrieTree()
+
+  for word in vocab:
+
+    if check_word(prev_tree, word, plate_dict):
+      if shortest is None:
+        shortest = word
+      elif len(shortest)>len(word):
+        shortest = word
+        
+  return shortest
+
+
+#print(search_prefix(vocab, plate))
