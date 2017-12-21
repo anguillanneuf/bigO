@@ -50,7 +50,7 @@ def check_word(state_nested, word):
     
   return state_nested, state
 
-def search_prefix(vocab, plate):
+def search_word(vocab, plate):
   """Searches for the shortest word in a list of words that 
   contains all the letters in the plate string"""
   
@@ -72,4 +72,4 @@ def search_prefix(vocab, plate):
 vocab = ['enjoy','enjoying', 'joy','joyful','joyous','joyousness']
 plate = 'NY10NJ'
 
-print(search_prefix(vocab, plate))
+print(search_word(vocab, plate))
