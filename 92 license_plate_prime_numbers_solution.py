@@ -15,6 +15,9 @@ def generate_prime_numbers():
     ptest    = [curr for i in primes if curr%i == 0]
     primes  += [] if ptest else [curr]
     curr += 1
+    
+  # primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 
+  #          31, 37, 41, 43, 47, 53, 59, 61, 67, 71]
   return primes
 
 def calculate_product(word, primes):
@@ -39,9 +42,8 @@ def search_word(vocab, plate):
   for word in vocab:
     word_product = calculate_product(list(word), primes)
     if word_product%plate_product == 0:
-      if shortest is None:
-        shortest = word
-      if len(shortest) > len(word):
+      if shortest is None or \
+      len(shortest) > len(word):
         shortest = word
         
   return shortest
