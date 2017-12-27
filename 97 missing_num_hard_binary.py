@@ -4,6 +4,8 @@ Created on Wed Dec 27 15:54:06 2017
 
 @author: harrisot
 
+Question 17.4 in Cracking the Coding Interview
+
 00000
 00001
 00010
@@ -32,51 +34,34 @@ from math import log
 
 def missing_number(arr):
   
+  n = len(arr) 
+  nbits = int(log(n,2)+1)            # no. of bits needed to store max v in array 
+  fmt = '#0'+str(int(nbits+2))+'b'   # format to represent values in binary, e.g. '#05b'
+  result = 0
+  d = None
   
-  # 1. converts arr into binary arr
-  n = len(arr)
-  nb = int(log(n,2))
-  fmt = '#0'+str(int(nb+1+2))+'b'
-  arr_b = [format(v, fmt) for v in arr]
-  result = [0]*int(nb+1)
-  
-  # 2. deduces the rightmost binary digit of the missing value
-  i = -1
-  c0 = c1 = 0
-  for v in arr_b:
-    if v[i]=="0": 
-      c0+=1
-    else: c1+=1
-
-  if c0<=c1:
-    d = 0
-  else: d = 1
+  # determines the binary digits from right to left
+  for i in range(-1, int(-nbits-1), -1):
+    c0 = c1 = 0               # set the count for zeros and ones to be 0
     
-  # 3. determines the earlsier binary digits (HARD)
-  result[-1] = d
-  for i in range(-2, int(-nb-2), -1):    
-    arr_b = [v for v in arr_b if v[i+1]==str(d)]
-    c0=c1=0
-    for v in arr_b:
+    if i == -1:               # preprocesses arr to binary format
+      arr = [format(v, fmt) for v in arr]
+    elif d is not None:       # eliminates values whose i-th bit is d
+      arr = [v for v in arr if v[i+1]==str(d)]
+    
+    for v in arr:             # update the counts for zeros and ones for i-th bit
       if v[i]=="0":
         c0+=1
       else: c1+=1
     if c0<=c1:
       d = 0
-    else:
-      d = 1
-    result[i] = d
-    print(arr_b, result)
+    else: d = 1
+    
+    result += d*2**abs(i+1)  # converts the correctly determined value at the i-th bit to decimal 
   
-  # 4. convert result to base 10
+  return result
 
-  power = nb
-  output = 0
-  for v in result:
-    output += v*2**power
-    power-=1
-  
-  return int(output)
-
-arr = [0,1,2,3,4,5,6,7,8,9,10,11,12,14,15]
-print(missing_number(arr))
+arr1 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+print(missing_number(arr1)) # should print 16
+arr2 = [0,1,2,3,4,5,6,7,9,10,11,12,13,14,15]
+print(missing_number(arr2)) # should print 8
