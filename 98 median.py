@@ -28,9 +28,9 @@ def kth(A,B,k):
   j = k-i
   
   if A[i]>B[j]:
-    return kth(A[:i],B[j:],i)    # ith because we skip j elements
+    return kth(A[:i],B[j:],i)    # ith because we have skipped j elements
   else: 
-    return kth(A[i:],B[:j],j)    # jth because we skip i elements
+    return kth(A[i:],B[:j],j)    # jth because we have skipped i elements
 
 
 A = [1,3,5]
