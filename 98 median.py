@@ -24,7 +24,7 @@ def kth(A,B,k):
   if k==len(A)+len(B)-1:
     return max(A[-1],B[-1])
   
-  i = min(len(A)-1, k//2)        # i+j=k
+  i = len(A)//2       # i+j=k
   j = k-i
   
   if A[i]>B[j]:
@@ -33,7 +33,7 @@ def kth(A,B,k):
     return kth(A[i:],B[:j],j)    # jth because we skip i elements
 
 
-A = [1,3,5,7]
-B = [2,4,5,6,7,8]
+A = [1,3,5]
+B = [2,4,90]
 
 print(find_median_in_two_sorted_arr(A,B))
