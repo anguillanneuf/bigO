@@ -5,112 +5,62 @@ Created on Mon Jan 15 12:11:05 2018
 
 @author: tz
 """
-
 def update_cell(cell, board):
     i,j = cell
-    possibles = set([str(k) for k in range(1,10)])
-    not_possibles = set([])
+    q1 = []; q2 = []; q3 = []
     
     # 1. check sub-board
     for ci in range(i//3*3, i//3*3+3):
         for cj in range(j//3*3, j//3*3+3):
             if board[ci][cj].isdigit(): 
-                not_possibles.add(board[ci][cj])
+                q1.append(board[ci][cj])
+          
+    if len(q1) != len(set(q1)): return cell
                 
     # 2. check row
     for ci in range(9):
         if board[ci][j].isdigit():
-            not_possibles.add(board[ci][j])
+            q2.append(board[ci][j])
+     
+    if len(q2) != len(set(q2)): return cell
             
     # 3. check column
     for cj in range(9):
         if board[i][cj].isdigit():
-            not_possibles.add(board[i][cj])
-            
-    return cell.extend(list(possibles-not_possibles))
-            
-def check_board(board):
+            q3.append(board[i][cj])
+     
+    if len(q3) != len(set(q3)): return cell
     
-    for iii in [[0,1,2],[3,4,5],[6,7,8]]:
-        for jjj in [[0,1,2],[3,4,5],[6,7,8]]:
-            subboard = set([])
-            for i in iii:
-                for j in jjj:
-                    if board[i][j].isdigit():
-                        if board[i][j] not in subboard: 
-                            subboard.add(board[i][j])
-                        else:
-                            return False
-                 
-    for i in range(9):
-        row = set([])
-        for j in range(9):
-            if board[i][j].isdigit():
-                if board[i][j] not in row:
-                    row.add(board[i][j])
-                else:
-                    return False
+    cell.extend(list(set([str(k) for k in range(1,10)])-set(q1+q2+q3)))
   
-    for j in range(9):
-        col = set([])
-        for i in range(9):
-            if board[i][j].isdigit():
-                if board[i][j] not in col: 
-                    col.add(board[i][j])
-                else:
-                    return False
-            
-    return True
-    
+    return cell
+
 def sudoku_solve(board):
-    
-    if not check_board(board):
-        return Falsed
-    
-    empties = []
-    
-    for i in range(9):
-        for j in range(9):
-            if board[i][j]==".":
-                empties.append([i,j])
-                
-    empties = [update_cell(cell, board) for cell in empties]
-    
+
+    empties = [update_cell([i,j], board) for i in range(9) for j in range(9) if board[i][j]=='.']
     empties = sorted(empties, key=len, reverse=True)
-    
-    if len(empties)==0:
-        return True
+
+#    print("empties:", empties[-5:])
     
     while empties: 
         empty = empties.pop()
-        
-        if not check_board(board):
-            return False
+        i,j = empty[0], empty[1]
         
         if len(empty)==2:
             return False
         
         if len(empty)==3:
-            i,j,v = empty[0], empty[1], empty[2]
-            board[i][j]=str(v)
+            board[i][j]=empty[2]
             empties = [update_cell(cell[:2], board) for cell in empties]
             empties = sorted(empties, key=len, reverse=True)
         
-        if len(empty)>3: 
-
-            i,j = empty[0], empty[1]
-            votes = []
+        if len(empty)>3:
             for v in empty[2:]:
-                board[i][j] = str(v)
-                
-                votes.append(sudoku_solve(board))
-                
+                board[i][j] = v
+                if sudoku_solve(board):
+                    return True
                 board[i][j] = '.'
-            
-            if any(votes):
-                return True
     return True
-
 
 board1 = [[".","8","9",".","4",".","6",".","5"],
           [".","7",".",".",".","8",".","4","1"],
@@ -121,6 +71,9 @@ board1 = [[".","8","9",".","4",".","6",".","5"],
           ["8",".",".",".",".",".",".",".","7"],
           [".","2",".","8",".",".",".","6","."],
           [".",".","6",".","7",".",".","8","."]]
+
+#print(update_cell([0,3],board1))
+#print(sudoku_solve(board1))
 
 board2 = [[".",".",".","7",".",".","3",".","1"],
           ["3",".",".","9",".",".",".",".","."],
@@ -133,5 +86,4 @@ board2 = [[".",".",".","7",".",".","3",".","1"],
           ["8",".","5",".",".","4",".",".","."]]
 
 
-print(sudoku_solve(board1))
 print(sudoku_solve(board2))
