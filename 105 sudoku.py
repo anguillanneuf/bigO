@@ -5,8 +5,10 @@ Created on Mon Jan 15 12:11:05 2018
 
 @author: tz
 """
-from copy import deepcopy 
+from copy import deepcopy
+
 def update_cell(cell, board):
+    """Appends values to try for cell (i,j)"""
     i,j = cell
     q1 = []; q2 = []; q3 = []
     
@@ -37,6 +39,7 @@ def update_cell(cell, board):
     return cell
 
 def print_board(board):
+    """Prints board if all blanks have been filled."""
     for i in range(9):
         for j in range(9):
             if board[i][j]=='.': pass
@@ -45,6 +48,7 @@ def print_board(board):
         for row in board: print(row)
             
 def sudoku_solve(board):
+    """Main function"""
 
     empties = [update_cell([i,j], board) for i in range(9) for j in range(9) if board[i][j]=='.']
     empties = sorted(empties, key=len, reverse=True)
@@ -71,15 +75,13 @@ def sudoku_solve(board):
     empty = empties.pop()
     i,j = empty[0], empty[1]
 
-    board_copy = deepcopy(board)
-    
+    board_copy = deepcopy(board) # reason I need a copy is because
+    # my main function also modifies board
     for v in empty[2:]:
         board = deepcopy(board_copy)
         board[i][j] = v
-        
         if sudoku_solve(board): 
           return True
-        
         board[i][j] = '.'
     
     return False
@@ -95,7 +97,7 @@ board1 = [[".","8","9",".","4",".","6",".","5"],
           [".",".","6",".","7",".",".","8","."]]
 
 #print(update_cell([0,3],board1))
-#print(sudoku_solve(board1))
+print(sudoku_solve(board1))
 
 board2 = [[".",".",".","7",".",".","3",".","1"],
           ["3",".",".","9",".",".",".",".","."],
