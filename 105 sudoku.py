@@ -5,6 +5,7 @@ Created on Mon Jan 15 12:11:05 2018
 
 @author: tz
 """
+from copy import deepcopy 
 def update_cell(cell, board):
     i,j = cell
     q1 = []; q2 = []; q3 = []
@@ -40,6 +41,7 @@ def print_board(board):
         for j in range(9):
             if board[i][j]=='.': pass
     else: 
+        print("One possible solution: ")
         for row in board: print(row)
             
 def sudoku_solve(board):
@@ -48,35 +50,38 @@ def sudoku_solve(board):
     empties = sorted(empties, key=len, reverse=True)
     
     # Exhausts simple choices
-    while len(empties[-1])<=3: 
+    while len(empties)>0 and len(empties[-1])<=3: 
         
         empty = empties.pop()
         i,j = empty[0], empty[1]
         
         if len(empty)==2:
-            print("no ans", empty)
             return False
         
         if len(empty)==3:
             board[i][j]=empty[2]
             empties = [update_cell(cell[:2], board) for cell in empties]
             empties = sorted(empties, key=len, reverse=True)
-    print("{} unfilled".format(len(empties)))      
+    
     if len(empties)==0: 
         print_board(board)
         return True
-       
+    
     # Deals with multiple choices
     empty = empties.pop()
     i,j = empty[0], empty[1]
-    votes = []
-    for v in empty[2:]:
-        board[i][j] = v
-        votes.append(sudoku_solve(board))
-        board[i][j] = '.'
 
-    if any(votes):
-        return True
+    board_copy = deepcopy(board)
+    
+    for v in empty[2:]:
+        board = deepcopy(board_copy)
+        board[i][j] = v
+        
+        if sudoku_solve(board): 
+          return True
+        
+        board[i][j] = '.'
+    
     return False
 
 board1 = [[".","8","9",".","4",".","6",".","5"],
@@ -94,7 +99,7 @@ board1 = [[".","8","9",".","4",".","6",".","5"],
 
 board2 = [[".",".",".","7",".",".","3",".","1"],
           ["3",".",".","9",".",".",".",".","."],
-          [".","4",".","3","1",".","2",".","."],
+          [".","4",".","3","1",".","2",".","."],  
           [".","6",".","4",".",".","5",".","."],
           [".",".",".",".",".",".",".",".","."],
           [".",".","1",".",".","8",".","4","."],
