@@ -54,7 +54,7 @@ def sudoku_solve(board):
         i,j = empty[0], empty[1]
         
         if len(empty)==2:
-            print("no ans", empty)
+            # The problem is here!
             return False
         
         if len(empty)==3:
