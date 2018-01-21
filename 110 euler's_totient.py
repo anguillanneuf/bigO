@@ -28,17 +28,11 @@ def eulers_totient(n):
     
     # step 1: prime factorialization
     primes = prime_factorization(n)
-    res = []
-    cnt = 0
     
-    # step 2: iterate 1 thru n
-    for v in range(1,n):
-        for p in primes:
-            if v % p == 0:
-                break
-        else:
-            res.append((v,n))
-            cnt += 1
-    return res, cnt
+    # step 2:
+    for q in primes:
+        n *= (1-1/q)
+            
+    return int(n)
 
-print(eulers_totient(6))
+print(eulers_totient(9))
