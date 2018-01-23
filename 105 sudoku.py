@@ -60,6 +60,10 @@ def sudoku_solve(board):
         i,j = empty[0], empty[1]
         
         if len(empty)==2:
+<<<<<<< HEAD
+            # The problem is here!
+=======
+>>>>>>> f7bf7ef18c19f0d2c2f6f9fd4e9ac26c4af26f7b
             return False
         
         if len(empty)==3:
