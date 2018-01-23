@@ -30,4 +30,4 @@ def couples_holding_hands(row):
         
   return swap
   
-print(couples_holding_hands_2([1,4,0,5,8,7,6,3,2,9]))
+print(couples_holding_hands([1,4,0,5,8,7,6,3,2,9]))

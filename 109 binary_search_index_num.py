@@ -16,15 +16,15 @@ def index_equals_value_search(arr):
     
     if arr[mid] == mid:
       result = mid
-      right = mid
+      right = mid-1
     
     if arr[mid] < mid:
       left = mid+1
     
     if arr[mid] >= mid:
-      right = mid
+      right = mid-1
 
   return result
 
-arr = [-5,0,2,3,10,29]
+arr = [-9,0,2,3,10,29]
 print(index_equals_value_search(arr)) # returns 2

@@ -135,7 +135,8 @@ grid4 = [[1,-1,-1,-1,1,1,-1,-1,1,1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,1,1,1,-
         
 mysolution = Solution()
 print(mysolution.cherryPickup(grid1))
+print(mysolution.memo)
 print(mysolution.cherryPickup(grid3))
 print(mysolution.cherryPickup(grid2))
-print(mysolution.cherryPickup(grid4)) # 195
+#print(mysolution.cherryPickup(grid4)) # 195
 #print(mysolution.memo)
