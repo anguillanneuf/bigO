@@ -41,33 +41,19 @@ max_idx
 remaing
 
 end when pointer reaches the end of the string
-"""
-
-def where_to_part(rem, i, j):
-  
-  left,mid,right = rem[i:].rpartition(rem[j])
-
-  if not set(left) & set(right): 
-    return i+len(left)+len(mid)
-  else:
-    j = i
-    for ch in list(set(left)):
-      for p, c in enumerate(right):
-        if ch == c and j < i+len(left)+p+1:
-          j = i+len(left)+p+1
-          
-    return where_to_part(rem, i, j)
-  
+""" 
 
 def partition_labels(S):
   output = []
-  p = 0
+  mem = {v:i for i,v in enumerate(S)}
+  p = q = 0
   
-  while p < len(S):
-    q = p
-    p = where_to_part(S, q, p)
-    output.append(p-q)
-    
+  for i,v in enumerate(S):
+    q = max(q, mem[v])
+    if i == q:
+      output.append(q-p+1)
+      p = i+1
+  
   return output
 
 #              9      6   0123 
