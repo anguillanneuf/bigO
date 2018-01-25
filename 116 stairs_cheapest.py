@@ -15,15 +15,19 @@ Explanation: Cheapest is start on cost[0], and only step on 1s,
 skipping cost[3].
 """
 
+from collections import deque
+
 def cheapest_stairs(cost):
   if len(cost)<2: return 0
-  if len(cost)==2: return min(cost)
+  mem = deque(maxlen=2)
   
-  mem = cost
-  for i,m in enumerate(mem):
-    if i<2: continue
-    mem[i] = min(mem[i-2]+mem[i], mem[i-1]+mem[i])
-  return min(mem[-2:])
+  for i,c in enumerate(cost):
+    if i<2: 
+      mem.append(c)
+    else:
+      mem.append(min(mem[-1]+c, mem[-2]+c))
+     
+  return min(mem)
 
 cost1 = [10, 15, 20]
 cost2 = [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
@@ -31,4 +35,4 @@ cost3 = [841,462,566,398,243,248,238,650,989,576,361,126,334,729,446,897,953,38,
 print(cheapest_stairs(cost1))
 print(cheapest_stairs(cost2))
 print(cheapest_stairs(cost3))
-print(cheapest_stairs([0,0,1,1]))
+print(cheapest_stairs([1]))
