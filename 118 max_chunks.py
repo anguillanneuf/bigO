@@ -31,21 +31,25 @@ def max_chunks(arr):
   
   cnt = 0
   i = 0
-  farthest = arr[i]
+  j = 0
+  t = 0
+  _i = -1
   
   for i in range(len(arr)):
     
-    if i < farthest:     
-      if arr[i] > farthest:
-        farthest = arr[i]
+    if arr[i] > j:
+        j = arr[i]
         
-    elif i==farthest or i == arr[i]:
-      cnt += 1
-      if i+1 < len(arr):
-        farthest = arr[i+1]
-    
-    print(i, farthest)
-      
+    if i == arr[i] and i == j:
+        cnt += 1
+        t = 0
+        _i = i
+    else:
+        t += 1
+        if j-_i == t:
+            cnt += 1
+        
+        
   return cnt
 
 arr1 = [4,3,2,1,0]
@@ -54,10 +58,10 @@ arr3 = [1,0,7,2,8,3,5,4,6,9]
 arr4 = [0,4,5,2,1,3]
 arr5 = [1,2,0,3]
 arr6 = [1,2,3,4,5,0]
-#print(arr1, max_chunks(arr1))
-#print(arr2, max_chunks(arr2))
-#print(arr3, max_chunks(arr3))
-#print(arr4, max_chunks(arr4))
-#print(arr5, max_chunks(arr5))
+print(arr1, max_chunks(arr1))
+print(arr2, max_chunks(arr2))
+print(arr3, max_chunks(arr3))
+print(arr4, max_chunks(arr4))
+print(arr5, max_chunks(arr5))
 print(arr6, max_chunks(arr6))
 #print([0,1,2], max_chunks([0,1,2]))
