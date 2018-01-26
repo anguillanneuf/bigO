@@ -40,7 +40,7 @@ def max_chunks(arr):
     if arr[i] > j:
         j = arr[i]
         
-    if i == arr[i] and i == j:
+    if i == j:
         cnt += 1
         t = 0
         _i = i
