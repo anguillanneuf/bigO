@@ -35,23 +35,25 @@ The time limit for this problem has been reduced.
 """
 
 def global_local_inversions(A):
-  n_locals = 0
-  n_globals = 0
-  
-  for i in range(len(A)-1):
-    if A[i]>A[i+1]:
-      n_locals += 1
-    for j in range(i+1, len(A)):
-      if A[i] > A[j]:
-        n_globals += 1
-        
-  print(n_globals, n_locals)
-  return True if n_locals==n_globals else False
+  """Because locals are always globals, if there are
+	only locals, return True. 
+	Only locals mean we only allow the greater-than (>) 
+	relationship to exist between numbers that are next to 
+	each other, never number that are farther apart than that"""
+    
+  cmax = 0
+  for i in range(len(A)-2):
+    cmax = max(cmax, A[i])
+    if cmax > A[i+2]:
+      return False
+  return True
 
-A1 = [1,0,2] # g 1, l 1
-A2 = [1,2,0] # g 2, l 1
-A3 = [2,1,0] # g 3, l 2
+A1 = [1,0,2]
+A2 = [1,2,0] 
+A3 = [2,1,3,0,4] 
+A4 = [5,0,1,2,3,4]
+A5 = [4,5,0,1,2,3] 
+A6 = [1,0,3,2,5,4]
 
-
-for A in [A1, A2, A3]:
+for A in [A1, A2, A3, A4, A5, A6]:
   print(global_local_inversions(A))
