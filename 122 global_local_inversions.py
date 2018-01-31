@@ -39,7 +39,8 @@ def global_local_inversions(A):
 	only locals, return True. 
 	Only locals mean we only allow the greater-than (>) 
 	relationship to exist between numbers that are next to 
-	each other, never number that are farther apart than that"""
+	each other, never number that are farther apart than that.
+   This is a *greedy* solution. """
     
   cmax = 0
   for i in range(len(A)-2):
