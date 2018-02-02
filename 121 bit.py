@@ -15,8 +15,8 @@ class Bit(object):
         print(format(self.v, '#010b'))
         
     def get_bit(self, k):
-        mask = (1<<k)
-        return 1 if self.v & (mask) != 0 else 0
+        # self.v & (mask) returns true val, not 1 and 0 necessarily
+        return 1 if self.v & (1<<k) else 0 
     
     def set_bit(self, k):
         self.v |= (1 << k)
@@ -41,7 +41,9 @@ class Bit(object):
 
 myBit = Bit(59)
 myBit.print_binary()
-    
+
+print(myBit.get_bit(1))
+
 myBit.set_bit(2)
 myBit.print_binary()
 
