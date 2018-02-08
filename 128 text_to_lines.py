@@ -136,7 +136,7 @@ class Lines(object):
 
 
 raw = "Try this: Given a string of English text and a paragraph width, design an algorithm to break the texts into lines not exceeding the paragraph width, and not too jagged."
-lines = Lines(raw, 80)
+lines = Lines(raw, 50)
 lines.find_linebreaks()
 
 for b in range(1,len(lines.linebreaks)):
