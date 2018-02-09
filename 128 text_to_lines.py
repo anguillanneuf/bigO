@@ -9,7 +9,7 @@ design an algorithm to break the texts into lines not
 exceeding the paragraph width, and not too jagged."
 """
 
-from itertools import product
+from itertools import product, combinations
 
 class Lines(object):
   
@@ -18,6 +18,8 @@ class Lines(object):
     self.width = width
     self.borders = []
     self.linebreaks = []
+    self.bf = set()
+    self.tz = set()
     
   def find_borders(self):
     """Find where the cutoffs are"""
@@ -93,51 +95,108 @@ class Lines(object):
     the sum of squares of all the differences between all 
     neighboring pairs is minimized.     
     """
-    self.find_borders()
     
-    # Try to squeeze as much as possible from front to back
     front_push = []
     p = 0
-
     while p is not None and p <= len(self.borders):
       front_push.append((p, self.borders[p]))
       p = self.find_next_linebreak(p)
+#    print("front push results", front_push)
     
-    print("front push results", front_push)
-    
-    # Try to squeeze as much as possible from back to front
     back_push = []
     p = len(self.borders)-1
-
     while p is not None and p >= 0: 
       back_push.append((p, self.borders[p]))
-      p = self.find_next_linebreak(p, reversed=True)
-    
-    print("back push results", back_push[::-1])
-    
-    # Brute force search
+      p = self.find_next_linebreak(p, reversed=True)  
+#    print("back push results", back_push[::-1])
+
     min_cost = float('inf')
     possible_ranges = []
-    
     for back,front in zip(back_push[::-1], front_push):
       possible_ranges.append(range(back[0], front[0]+1))
 
+    count = 0
     for scenario in product(*possible_ranges):
-
+      count += 1
       cost = 0
+      
+      ok = True
+      
       for k in range(1,len(scenario)):
-        cost += (self.width - (self.borders[scenario[k]]-self.borders[scenario[k-1]]))**2
+        diff = self.borders[scenario[k]]-self.borders[scenario[k-1]]
+        
+        if diff > self.width:
+          cost = float('inf')
+          ok = False
+          break
+        else:
+          cost += (self.width - diff)**2
+          
+#        cost += (self.width - (self.borders[scenario[k]]-self.borders[scenario[k-1]]))**2
+      if ok:
+        self.tz.add(tuple([self.borders[i] for i in scenario]))
         
       if cost < min_cost:
         min_cost = cost
         self.linebreaks = [self.borders[k] for k in scenario]
+
+    print("My solution runs {} times and evaluates cost {} times.".format(count, len(self.tz)))
+    print("{} has least cost of {}".format(self.linebreaks, min_cost))
+    
+    for b in range(1,len(lines.linebreaks)):
+      print(raw[lines.linebreaks[b-1]:lines.linebreaks[b]])
+
+
+  def find_linebreaks_brute_force(self):
+    """Time: O(n!) 
+    The outer for loop will run len(borders)-choose-n times."""
+    
+    borders = self.borders[1:len(self.borders)-1]
+    n = len(self.raw)//self.width
+    min_cost = float('inf')
+    count = 0
+    
+    
+    for scenario in combinations(borders, n): 
+      ok = True
+      cost = 0
+      scenario = [0] + list(scenario) + [len(self.raw)]
+      count += 1
+      
+      for k in range(1,len(scenario)):
+        diff = scenario[k]- scenario[k-1]
+        
+        if diff > self.width:
+          cost = float('inf')
+          ok = False
+          break
+        else:
+          cost += (self.width - diff)**2
+      
+      if ok: 
+        self.bf.add(tuple(scenario))
+        
+      if cost < min_cost:
+        min_cost = cost
+        self.linebreaks = scenario
+    
+    print("Brute force solution runs {} times and evalutes cost {} times.".format(count, len(self.bf)))
+    print("{} has least cost of {}".format(self.linebreaks, min_cost))
+    
+    for b in range(1,len(lines.linebreaks)):
+      print(raw[lines.linebreaks[b-1]:lines.linebreaks[b]])
+
   
-
-
+  def find_linebreaks_improved(self):
+    """Time: O(n^2)"""
+    
+    pass
 
 raw = "Try this: Given a string of English text and a paragraph width, design an algorithm to break the texts into lines not exceeding the paragraph width, and not too jagged."
-lines = Lines(raw, 50)
+lines = Lines(raw, 80)
+lines.find_borders()
+print(lines.borders)
+lines.find_linebreaks_brute_force()
 lines.find_linebreaks()
 
-for b in range(1,len(lines.linebreaks)):
-  print(raw[lines.linebreaks[b-1]:lines.linebreaks[b]])
+
