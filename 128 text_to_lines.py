@@ -103,7 +103,7 @@ class Lines(object):
       front_push.append((p, self.borders[p]))
       p = self.find_next_linebreak(p)
     
-    print("front push results", front_push)
+    print("front push results: ", front_push)
     
     # Try to squeeze as much as possible from back to front
     back_push = []
@@ -113,7 +113,7 @@ class Lines(object):
       back_push.append((p, self.borders[p]))
       p = self.find_next_linebreak(p, reversed=True)
     
-    print("back push results", back_push[::-1])
+    print("back push results: ", back_push[::-1])
     
     # Brute force search
     min_cost = float('inf')
@@ -122,6 +122,7 @@ class Lines(object):
     for back,front in zip(back_push[::-1], front_push):
       possible_ranges.append(range(back[0], front[0]+1))
 
+    print("Possible ranges: ", possible_ranges)
     for scenario in product(*possible_ranges):
 
       cost = 0
@@ -136,7 +137,7 @@ class Lines(object):
 
 
 raw = "Try this: Given a string of English text and a paragraph width, design an algorithm to break the texts into lines not exceeding the paragraph width, and not too jagged."
-lines = Lines(raw, 50)
+lines = Lines(raw, 30)
 lines.find_linebreaks()
 
 for b in range(1,len(lines.linebreaks)):
