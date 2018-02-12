@@ -44,17 +44,15 @@ class Solution:
         :rtype: bool
         """
      
-        while sx <= tx and sy <= ty:
+        while sx < tx and sy < ty:
+            tx, ty = tx%ty, ty%tx
+            print(tx, ty)
             
-            if tx > ty:
-                tx, ty = tx-ty, ty
-            else:
-                tx, ty = tx, ty-tx
-            
-            if (sx, sy) == (tx, ty):
-                return True
-        
-        return False
+        if (ty-sy)%sx==0 and tx==sx or \
+            (tx-sx)%sy==0 and ty==sy:
+            return True
+        else:  
+            return False
 
 
 
@@ -63,9 +61,8 @@ class Solution:
 sx = 1; sy = 1; tx = 1000000000; ty = 1
 #sx = 1; sy = 1; tx = 3; ty = 5
 #sx = 9; sy = 5; tx = 12; ty = 9
-#sx=35
-#sy=13
-#tx=455955547
-#ty=420098884
+#sx=35;sy=13;tx=455955547;ty=420098884
+#sx = 3; sy = 7; tx = 10; ty = 27
+#sx = 2; sy = 4; tx = 15; ty = 9
 s = Solution()
 print(s.reachingPoints(sx, sy, tx, ty))
