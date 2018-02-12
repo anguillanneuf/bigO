@@ -32,6 +32,8 @@ sx, sy, tx, ty will all be integers in the range [1, 10^9].
 
 """
 
+
+
 class Solution:
     def reachingPoints(self, sx, sy, tx, ty):
         """
@@ -41,56 +43,26 @@ class Solution:
         :type ty: int
         :rtype: bool
         """
-        if sx > sy: 
-            sx, sy = sy, sx
-        if tx > ty:
-            tx, ty = ty, tx
+     
+        while sx <= tx and sy <= ty:
             
-        mem = set()
-        mem.add((sx, sy))
-        
-        while mem:
-            if (tx, ty) in mem:
+            if tx > ty:
+                tx, ty = tx-ty, ty
+            else:
+                tx, ty = tx, ty-tx
+            
+            if (sx, sy) == (tx, ty):
                 return True
-            
-            new_mem = set()
-            while mem:
-                a,b = mem.pop()
-                self.expand(a, b, new_mem)
-                
-            good_mem = set()
-            for a, b in sorted(new_mem):
-                if self.check_cond(a, b, tx, ty):
-                    good_mem.add((a, b))
-            
-            mem = good_mem
-            
+        
         return False
 
 
-    def expand(self, x, y, mem):
-        	mem.add(tuple(sorted([x+y, y])))
-        	mem.add(tuple(sorted([x, y+x])))
-          
-    def check_cond(self,sx, sy, tx, ty):
-        cond = False
-        if sx < tx and sy < ty:
-            cond = True
-        elif sx==tx:
-            if sy < ty:
-                cond = True
-            elif sy==ty:
-                cond = True
-            else:
-                cond = False
-        else:
-            cond = False
-        return cond
+
     
 
-sx = 1; sy = 1; tx = 2; ty = 1
-sx = 1; sy = 1; tx = 3; ty = 5
-sx = 9; sy = 5; tx = 12; ty = 9
+sx = 1; sy = 1; tx = 1000000000; ty = 1
+#sx = 1; sy = 1; tx = 3; ty = 5
+#sx = 9; sy = 5; tx = 12; ty = 9
 #sx=35
 #sy=13
 #tx=455955547
