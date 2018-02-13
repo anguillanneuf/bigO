@@ -50,7 +50,7 @@ class Lines(object):
                         C[i] = cost
                         P[i] = j+1
         
-        print("\nMinimum cost: {}".format(C[0]))
+        print("\nMinimum cost (width = {}): {}".format(width, C[0]))
         
         last = 0
         curr = 0
