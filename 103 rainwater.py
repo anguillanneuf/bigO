@@ -26,8 +26,8 @@ def collect_rainwater(arr):
             arr[k:j] = [peak]*(j-k)
             k = j
             
-    #print(original)
-    #print(arr)
+    print(original)
+    print(arr)
             
     for k in range(len(original)):
         unit += arr[k]-original[k]
@@ -36,4 +36,5 @@ def collect_rainwater(arr):
 
 
 arr = [1,4,1,2,3,3,2,3,0,2]
+arr = [1,2,3,1,4]
 print(collect_rainwater(arr))
