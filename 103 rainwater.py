@@ -4,37 +4,35 @@
 Created on Sun Jan 14 19:01:35 2018
 
 @author: tz
+
+https://leetcode.com/problems/trapping-rain-water/description/
 """
 
 def collect_rainwater(arr):
     
     unit = 0
+    if len(arr)<3:
+        return unit
     
-    if len(arr)<3: return unit
+    i = 0 
+    j = len(arr)-1
+    lmax = None
+    rmax = None
     
-    k = 1
-    original = arr.copy()
-    
-    while k + 1 < len(original):
-        
-        if arr[k-1] < arr[k]:
-            k += 1
+    while i<j: 
+        lmax = max(arr[i], lmax) if lmax else arr[i]
+        rmax = max(arr[j], rmax) if rmax else arr[j]
+        if lmax > rmax:
+            unit += rmax - arr[j]
+            j-=1
         else:
-            i = k+1
-            peak = max(arr[i:])
-            j = i + arr[i:].index(peak)
-            arr[k:j] = [peak]*(j-k)
-            k = j
-            
-    print(original)
-    print(arr)
-            
-    for k in range(len(original)):
-        unit += arr[k]-original[k]
+            unit += lmax - arr[i]
+            i+=1
     
     return unit
 
 
 arr = [1,4,1,2,3,3,2,3,0,2]
-arr = [1,2,3,1,4]
+#arr = [1,2,3,1,4]
+#arr = [2,1,0,2]
 print(collect_rainwater(arr))
